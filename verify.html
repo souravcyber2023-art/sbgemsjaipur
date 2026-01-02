@@ -1,68 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Verify Certificate | SB Gems</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Certificate Verification | SB Gems Testing Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background:#f2f2f2;
-    }
-    .box{
-      background:#ffffff;
-      padding:25px;
-      max-width:420px;
-      margin:70px auto;
-      border-radius:10px;
-      box-shadow:0 0 10px rgba(0,0,0,0.1);
-    }
-    input,button{
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      font-size:15px;
-    }
-    button{
-      background:#0b3c6d;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-    }
-    button:hover{
-      background:#092f54;
-    }
-    .result{
-      margin-top:15px;
-      font-size:15px;
-      line-height:1.6;
-    }
-    .notfound{
-      color:red;
-      font-weight:bold;
-    }
-    .stone-img{
-      margin-top:15px;
-      text-align:center;
-    }
-    .stone-img img{
-      max-width:100%;
-      border-radius:8px;
-      border:1px solid #ddd;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:#eef2f6;
+}
+
+/* MAIN CARD */
+.verify-card{
+  max-width:520px;
+  margin:80px auto;
+  background:#ffffff;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  overflow:hidden;
+}
+
+/* HEADER */
+.header{
+  background:#0b3c6d;
+  color:#fff;
+  padding:22px;
+  text-align:center;
+}
+.header h1{
+  margin:0;
+  font-size:22px;
+  letter-spacing:0.5px;
+}
+.header p{
+  margin:6px 0 0;
+  font-size:13px;
+  opacity:0.9;
+}
+
+/* BODY */
+.content{
+  padding:25px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  font-size:15px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  outline:none;
+}
+input:focus{
+  border-color:#0b3c6d;
+}
+
+button{
+  width:100%;
+  margin-top:15px;
+  padding:14px;
+  font-size:15px;
+  background:#0b3c6d;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  letter-spacing:0.5px;
+}
+button:hover{
+  background:#083057;
+}
+
+/* RESULT */
+.result{
+  margin-top:22px;
+  font-size:14.5px;
+  line-height:1.7;
+  color:#333;
+}
+
+/* VERIFIED BADGE */
+.verified{
+  display:inline-block;
+  background:#2e7d32;
+  color:#fff;
+  padding:4px 10px;
+  border-radius:4px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+/* NOT FOUND */
+.notfound{
+  color:#c62828;
+  font-weight:600;
+}
+
+/* TABLE STYLE */
+.details{
+  margin-top:10px;
+}
+.details div{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  border-bottom:1px dashed #ddd;
+}
+.details span:first-child{
+  font-weight:600;
+  color:#555;
+}
+
+/* IMAGE */
+.stone-photo{
+  text-align:center;
+  margin-top:18px;
+}
+.stone-photo img{
+  max-width:100%;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding:15px;
+  font-size:12px;
+  color:#777;
+  background:#f5f7fa;
+}
+</style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>Verify Certificate</h2>
+<div class="verify-card">
 
-  <input id="cert" type="text" placeholder="Enter Certificate Number">
-  <button onclick="verifyCertificate()">Verify</button>
+  <div class="header">
+    <h1>SB Gems Testing Lab®</h1>
+    <p>Independent Gemological Examination</p>
+  </div>
 
-  <div class="result" id="result"></div>
+  <div class="content">
+    <input id="cert" type="text" placeholder="Enter Certificate Number">
+    <button onclick="verifyCertificate()">VERIFY CERTIFICATE</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="footer">
+    © SB Gems Testing Lab • Certificate Verification System
+  </div>
+
 </div>
 
 <script>
@@ -88,27 +180,32 @@ const certificates = {
 ================================ */
 function verifyCertificate(){
   let input = document.getElementById("cert").value;
-  let certNo = input.replace(/\s+/g, "").toUpperCase();
-  let resultBox = document.getElementById("result");
+  let certNo = input.replace(/\s+/g,"").toUpperCase();
+  let box = document.getElementById("result");
 
-  if(certificates.hasOwnProperty(certNo)){
+  if(certificates[certNo]){
     let d = certificates[certNo];
-    resultBox.innerHTML =
-      "<b>Status:</b> VERIFIED ✅<br><br>" +
-      "<b>Certificate No:</b> " + certNo + "<br>" +
-      "<b>Stone:</b> " + d.stone + "<br>" +
-      "<b>Weight:</b> " + d.weight + "<br>" +
-      "<b>Color:</b> " + d.color + "<br>" +
-      "<b>Shape:</b> " + d.shape + "<br>" +
-      "<b>Buyer Name:</b> " + d.buyer + "<br>" +
-      "<b>Comment:</b> " + d.comment +
-      "<div class='stone-img'>" +
-      "<p><b>Stone Photo</b></p>" +
-      "<img src='" + d.image + "' alt='Stone Image'>" +
-      "</div>";
+    box.innerHTML = `
+      <div class="verified">VERIFIED ✓</div>
+
+      <div class="details">
+        <div><span>Certificate No</span><span>${certNo}</span></div>
+        <div><span>Gemstone</span><span>${d.stone}</span></div>
+        <div><span>Weight</span><span>${d.weight}</span></div>
+        <div><span>Colour</span><span>${d.color}</span></div>
+        <div><span>Shape & Cut</span><span>${d.shape}</span></div>
+        <div><span>Buyer Name</span><span>${d.buyer}</span></div>
+        <div><span>Result</span><span>${d.comment}</span></div>
+      </div>
+
+      <div class="stone-photo">
+        <p><b>Stone Image</b></p>
+        <img src="${d.image}" alt="Stone Image">
+      </div>
+    `;
   } else {
-    resultBox.innerHTML =
-      "<span class='notfound'>Certificate Not Found ❌</span>";
+    box.innerHTML =
+      "<span class='notfound'>Certificate Not Found ✖</span>";
   }
 }
 </script>
