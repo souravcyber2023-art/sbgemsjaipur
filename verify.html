@@ -2,11 +2,14 @@
 <html>
 <head>
 <title>Verify Certificate | SB Gems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body { font-family: Arial; background:#f2f2f2; }
-.box { background:#fff; padding:30px; max-width:400px; margin:100px auto; border-radius:10px; }
-input, button { width:100%; padding:10px; margin-top:10px; }
-button { background:#0b3c6d; color:#fff; border:none; }
+body{font-family:Arial;background:#f2f2f2;}
+.box{background:#fff;padding:20px;max-width:420px;margin:60px auto;border-radius:10px;}
+input,button{width:100%;padding:10px;margin-top:10px;}
+button{background:#0b3c6d;color:#fff;border:none;}
+.result{margin-top:15px;font-size:15px;}
+.notfound{color:red;}
 </style>
 </head>
 
@@ -14,12 +17,48 @@ button { background:#0b3c6d; color:#fff; border:none; }
 
 <div class="box">
 <h2>Verify Certificate</h2>
-<input type="text" placeholder="Enter Report Number">
-<button>Verify</button>
-<p style="margin-top:15px;color:gray;">
-(Online verification coming soon)
-</p>
+
+<input id="cert" placeholder="Enter Certificate Number">
+<button onclick="verify()">Verify</button>
+
+<div class="result" id="result"></div>
 </div>
+
+<script>
+// 🔐 CERTIFICATE DATABASE (এখানে data থাকবে)
+const certificates = {
+
+  "SBGT567892": {
+    stone: "Red Coral",
+    weight: "10.25 Ratti",
+    color: "Red",
+    shape: "Oval",
+    buyer: "Gita Sen",
+    comment: "Natural & Untreated"
+  }
+
+};
+
+// 🔍 VERIFY FUNCTION
+function verify(){
+  const num = document.getElementById("cert").value.trim().toUpperCase();
+  const r = document.getElementById("result");
+
+  if(certificates[num]){
+    const d = certificates[num];
+    r.innerHTML =
+      "<b>Status:</b> VERIFIED ✅<br><br>" +
+      "<b>Stone:</b> " + d.stone + "<br>" +
+      "<b>Weight:</b> " + d.weight + "<br>" +
+      "<b>Color:</b> " + d.color + "<br>" +
+      "<b>Shape:</b> " + d.shape + "<br>" +
+      "<b>Buyer Name:</b> " + d.buyer + "<br>" +
+      "<b>Comment:</b> " + d.comment;
+  } else {
+    r.innerHTML = "<span class='notfound'>Certificate Not Found ❌</span>";
+  }
+}
+</script>
 
 </body>
 </html>
