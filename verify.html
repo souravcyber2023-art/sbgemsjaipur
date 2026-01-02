@@ -8,55 +8,34 @@
 <style>
 body{
   margin:0;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background:#eef2f6;
 }
-
-/* MAIN CARD */
-.verify-card{
-  max-width:520px;
+.box{
+  max-width:480px;
   margin:80px auto;
   background:#ffffff;
+  padding:28px;
   border-radius:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,0.12);
 }
-
-/* HEADER */
-.header{
-  background:#0b3c6d;
-  color:#fff;
-  padding:22px;
+h2{
+  margin:0 0 20px;
   text-align:center;
+  color:#0b3c6d;
+  letter-spacing:0.4px;
 }
-.header h1{
-  margin:0;
-  font-size:22px;
-  letter-spacing:0.5px;
-}
-.header p{
-  margin:6px 0 0;
-  font-size:13px;
-  opacity:0.9;
-}
-
-/* BODY */
-.content{
-  padding:25px;
-}
-
 input{
   width:100%;
   padding:14px;
   font-size:15px;
-  border:1px solid #ccc;
-  border-radius:6px;
+  border:1px solid #cfd8dc;
+  border-radius:8px;
   outline:none;
 }
 input:focus{
   border-color:#0b3c6d;
 }
-
 button{
   width:100%;
   margin-top:15px;
@@ -65,104 +44,80 @@ button{
   background:#0b3c6d;
   color:#fff;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   cursor:pointer;
-  letter-spacing:0.5px;
+  font-weight:bold;
 }
 button:hover{
   background:#083057;
 }
-
-/* RESULT */
 .result{
   margin-top:22px;
   font-size:14.5px;
   line-height:1.7;
   color:#333;
 }
-
-/* VERIFIED BADGE */
 .verified{
   display:inline-block;
-  background:#2e7d32;
+  background:#1b5e20;
   color:#fff;
-  padding:4px 10px;
-  border-radius:4px;
+  padding:5px 12px;
+  border-radius:6px;
   font-size:12px;
+  font-weight:bold;
   margin-bottom:12px;
-}
-
-/* NOT FOUND */
-.notfound{
-  color:#c62828;
-  font-weight:600;
-}
-
-/* TABLE STYLE */
-.details{
-  margin-top:10px;
 }
 .details div{
   display:flex;
   justify-content:space-between;
-  padding:6px 0;
+  padding:7px 0;
   border-bottom:1px dashed #ddd;
 }
 .details span:first-child{
-  font-weight:600;
+  font-weight:bold;
   color:#555;
 }
-
-/* IMAGE */
-.stone-photo{
-  text-align:center;
+.stone{
   margin-top:18px;
-}
-.stone-photo img{
-  max-width:100%;
-  border-radius:8px;
-  border:1px solid #ddd;
-}
-
-/* FOOTER */
-.footer{
   text-align:center;
-  padding:15px;
+}
+.stone img{
+  max-width:100%;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+.notfound{
+  color:#c62828;
+  font-weight:bold;
+  text-align:center;
+}
+.footer{
+  margin-top:20px;
+  text-align:center;
   font-size:12px;
   color:#777;
-  background:#f5f7fa;
 }
 </style>
 </head>
 
 <body>
 
-<div class="verify-card">
+<div class="box">
+  <h2>SB Gems Testing Lab®</h2>
 
-  <div class="header">
-    <h1>SB Gems Testing Lab®</h1>
-    <p>Independent Gemological Examination</p>
-  </div>
+  <input id="cert" placeholder="Enter Certificate Number">
+  <button onclick="verify()">VERIFY CERTIFICATE</button>
 
-  <div class="content">
-    <input id="cert" type="text" placeholder="Enter Certificate Number">
-    <button onclick="verifyCertificate()">VERIFY CERTIFICATE</button>
-
-    <div class="result" id="result"></div>
-  </div>
+  <div class="result" id="result"></div>
 
   <div class="footer">
-    © SB Gems Testing Lab • Certificate Verification System
+    Independent Gemological Examination
   </div>
-
 </div>
 
 <script>
-/* ===============================
-   CERTIFICATE DATABASE
-================================ */
+/* CERTIFICATE DATABASE */
 const certificates = {
-
   "SBGTL567892": {
     stone: "Red Coral",
     weight: "10.25 Ratti",
@@ -170,26 +125,21 @@ const certificates = {
     shape: "Oval",
     buyer: "Gita Sen",
     comment: "Natural & Untreated",
-    image: "red-coral.jpg"
+    image: "coral.jpg"
   }
-
 };
 
-/* ===============================
-   VERIFY FUNCTION
-================================ */
-function verifyCertificate(){
-  let input = document.getElementById("cert").value;
-  let certNo = input.replace(/\s+/g,"").toUpperCase();
-  let box = document.getElementById("result");
+function verify(){
+  const num = document.getElementById("cert").value.replace(/\s+/g,"").toUpperCase();
+  const r = document.getElementById("result");
 
-  if(certificates[certNo]){
-    let d = certificates[certNo];
-    box.innerHTML = `
+  if(certificates[num]){
+    const d = certificates[num];
+    r.innerHTML = `
       <div class="verified">VERIFIED ✓</div>
 
       <div class="details">
-        <div><span>Certificate No</span><span>${certNo}</span></div>
+        <div><span>Certificate No</span><span>${num}</span></div>
         <div><span>Gemstone</span><span>${d.stone}</span></div>
         <div><span>Weight</span><span>${d.weight}</span></div>
         <div><span>Colour</span><span>${d.color}</span></div>
@@ -198,14 +148,12 @@ function verifyCertificate(){
         <div><span>Result</span><span>${d.comment}</span></div>
       </div>
 
-      <div class="stone-photo">
-        <p><b>Stone Image</b></p>
+      <div class="stone">
         <img src="${d.image}" alt="Stone Image">
       </div>
     `;
   } else {
-    box.innerHTML =
-      "<span class='notfound'>Certificate Not Found ✖</span>";
+    r.innerHTML = "<div class='notfound'>Certificate Not Found ✖</div>";
   }
 }
 </script>
