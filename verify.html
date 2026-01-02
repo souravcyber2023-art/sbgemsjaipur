@@ -42,6 +42,15 @@
       color:red;
       font-weight:bold;
     }
+    .stone-img{
+      margin-top:15px;
+      text-align:center;
+    }
+    .stone-img img{
+      max-width:100%;
+      border-radius:8px;
+      border:1px solid #ddd;
+    }
   </style>
 </head>
 
@@ -68,7 +77,8 @@ const certificates = {
     color: "Red",
     shape: "Oval",
     buyer: "Gita Sen",
-    comment: "Natural & Untreated"
+    comment: "Natural & Untreated",
+    image: "red-coral.jpg"
   }
 
 };
@@ -78,7 +88,7 @@ const certificates = {
 ================================ */
 function verifyCertificate(){
   let input = document.getElementById("cert").value;
-  let certNo = input.replace(/\s+/g, "").toUpperCase(); // space remove
+  let certNo = input.replace(/\s+/g, "").toUpperCase();
   let resultBox = document.getElementById("result");
 
   if(certificates.hasOwnProperty(certNo)){
@@ -91,7 +101,11 @@ function verifyCertificate(){
       "<b>Color:</b> " + d.color + "<br>" +
       "<b>Shape:</b> " + d.shape + "<br>" +
       "<b>Buyer Name:</b> " + d.buyer + "<br>" +
-      "<b>Comment:</b> " + d.comment;
+      "<b>Comment:</b> " + d.comment +
+      "<div class='stone-img'>" +
+      "<p><b>Stone Photo</b></p>" +
+      "<img src='" + d.image + "' alt='Stone Image'>" +
+      "</div>";
   } else {
     resultBox.innerHTML =
       "<span class='notfound'>Certificate Not Found ❌</span>";
