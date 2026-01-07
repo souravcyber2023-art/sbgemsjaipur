@@ -2,158 +2,123 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Certificate Verification | SB Gems Testing Lab</title>
+<title>Verify Certificate | SB Gems Testing Lab</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
-  margin:0;
   font-family: Arial, Helvetica, sans-serif;
-  background:#eef2f6;
+  background:#f2f2f2;
 }
 .box{
-  max-width:480px;
-  margin:80px auto;
   background:#ffffff;
-  padding:28px;
+  max-width:500px;
+  margin:50px auto;
+  padding:20px;
   border-radius:12px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 h2{
-  margin:0 0 20px;
   text-align:center;
   color:#0b3c6d;
-  letter-spacing:0.4px;
 }
-input{
+input,button{
   width:100%;
-  padding:14px;
-  font-size:15px;
-  border:1px solid #cfd8dc;
-  border-radius:8px;
-  outline:none;
-}
-input:focus{
-  border-color:#0b3c6d;
+  padding:12px;
+  margin-top:10px;
+  font-size:16px;
 }
 button{
-  width:100%;
-  margin-top:15px;
-  padding:14px;
-  font-size:15px;
   background:#0b3c6d;
   color:#fff;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   cursor:pointer;
-  font-weight:bold;
-}
-button:hover{
-  background:#083057;
 }
 .result{
-  margin-top:22px;
-  font-size:14.5px;
-  line-height:1.7;
-  color:#333;
+  margin-top:15px;
+  font-size:15px;
 }
-.verified{
-  display:inline-block;
-  background:#1b5e20;
-  color:#fff;
-  padding:5px 12px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-.details div{
-  display:flex;
-  justify-content:space-between;
-  padding:7px 0;
-  border-bottom:1px dashed #ddd;
-}
-.details span:first-child{
-  font-weight:bold;
-  color:#555;
-}
-.stone{
-  margin-top:18px;
-  text-align:center;
-}
-.stone img{
-  max-width:100%;
+.valid{color:green;}
+.notfound{color:red;}
+img{
+  max-width:260px;
+  display:block;
+  margin:15px auto;
   border-radius:10px;
-  border:1px solid #ccc;
+  box-shadow:0 0 8px rgba(0,0,0,.2);
 }
-.notfound{
-  color:#c62828;
-  font-weight:bold;
-  text-align:center;
-}
-.footer{
-  margin-top:20px;
-  text-align:center;
-  font-size:12px;
-  color:#777;
-}
+hr{margin:12px 0;}
 </style>
 </head>
 
 <body>
 
 <div class="box">
-  <h2>SB Gems Testing Lab®</h2>
+  <h2>Verify Certificate</h2>
 
   <input id="cert" placeholder="Enter Certificate Number">
-  <button onclick="verify()">VERIFY CERTIFICATE</button>
+  <button onclick="verify()">Verify</button>
 
   <div class="result" id="result"></div>
-
-  <div class="footer">
-    Independent Gemological Examination
-  </div>
 </div>
 
 <script>
-/* CERTIFICATE DATABASE */
+// 🔐 CERTIFICATE DATABASE (2 DETAILS FINAL)
 const certificates = {
-  "SBGTL567892": {
-    stone: "Red Coral",
-    weight: "10.25 Ratti",
+
+  // 🔴 CERTIFICATE 1 – RUBY (CHUNI)
+  "SBGTL266489": {
+    stone: "Natural Ruby (Chuni)",
+    report: "SBGTL266489",
+    weight: "8.28 Ratti",
+    shape: "Oval, Faceted",
     color: "Red",
+    ri: "1.762 – 1.770",
+    sg: "4.00 Approx",
+    hardness: "9.0",
+    comment: "100% Natural (No Treatment)",
+    image: "ruby.png"
+  },
+
+  // 🔴 CERTIFICATE 2 – RED CORAL (CHUNI)
+  "SBGTL567892": {
+    stone: "Red Coral (Chuni)",
+    report: "SBGTL567892",
+    weight: "7.25 Carat",
     shape: "Oval",
-    buyer: "Gita Sen",
-    comment: "Natural & Untreated",
+    color: "Natural Red",
+    ri: "1.486 – 1.658",
+    sg: "2.60 – 2.70",
+    hardness: "3.5 – 4",
+    comment: "Natural Coral (No Treatment)",
     image: "coral.png"
   }
+
 };
 
 function verify(){
-  const num = document.getElementById("cert").value.replace(/\s+/g,"").toUpperCase();
-  const r = document.getElementById("result");
+  const num = document.getElementById("cert").value.trim();
+  const res = document.getElementById("result");
 
   if(certificates[num]){
-    const d = certificates[num];
-    r.innerHTML = `
-      <div class="verified">VERIFIED ✓</div>
-
-      <div class="details">
-        <div><span>Certificate No</span><span>${num}</span></div>
-        <div><span>Gemstone</span><span>${d.stone}</span></div>
-        <div><span>Weight</span><span>${d.weight}</span></div>
-        <div><span>Colour</span><span>${d.color}</span></div>
-        <div><span>Shape & Cut</span><span>${d.shape}</span></div>
-        <div><span>Buyer Name</span><span>${d.buyer}</span></div>
-        <div><span>Result</span><span>${d.comment}</span></div>
-      </div>
-
-      <div class="stone">
-        <img src="${d.image}" alt="Stone Image">
-      </div>
+    const c = certificates[num];
+    res.innerHTML = `
+      <p class="valid"><b>✔ Certificate Verified</b></p>
+      <hr>
+      <p><b>Stone:</b> ${c.stone}</p>
+      <p><b>Report Number:</b> ${c.report}</p>
+      <p><b>Weight:</b> ${c.weight}</p>
+      <p><b>Shape & Cut:</b> ${c.shape}</p>
+      <p><b>Colour:</b> ${c.color}</p>
+      <p><b>R.I.:</b> ${c.ri}</p>
+      <p><b>S.G.:</b> ${c.sg}</p>
+      <p><b>Hardness:</b> ${c.hardness}</p>
+      <p><b>Comment:</b> ${c.comment}</p>
+      <img src="${c.image}">
     `;
-  } else {
-    r.innerHTML = "<div class='notfound'>Certificate Not Found ✖</div>";
+  }else{
+    res.innerHTML = `<p class="notfound">✖ Certificate Not Found</p>`;
   }
 }
 </script>
